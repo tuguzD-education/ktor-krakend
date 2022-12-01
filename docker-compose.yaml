@@ -1,0 +1,41 @@
+services:
+
+  krakend:
+    image: devopsfaith/krakend:latest
+    depends_on:
+      - accounts
+      - blogs
+    ports:
+      - 8080:8080
+    volumes:
+      - ./krakend.json:/etc/krakend/krakend.json
+
+  accounts:
+    image: ktor-accounts
+    build: accounts
+    depends_on:
+      - mongo-accounts
+    ports:
+      - 8081:8080
+    environment:
+      - CONNECTION_URI=mongodb://mongo:password@mongo-accounts:27017/?authSource=admin
+  mongo-accounts:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  blogs:
+    image: ktor-blogs
+    build: blogs
+    depends_on:
+      - mongo-blogs
+    ports:
+      - 8082:8080
+    environment:
+      - CONNECTION_URI=mongodb://mongo:password@mongo-blogs:27017/?authSource=admin
+  mongo-blogs:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=password

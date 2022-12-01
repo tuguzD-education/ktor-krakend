@@ -1,0 +1,205 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "name": "KrakenD — API Gateway",
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "endpoints": [
+    {
+      "endpoint": "/v1/all",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/blogs",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ],
+          "group": "blogs",
+          "is_collection": true,
+          "target": ""
+        },
+        {
+          "url_pattern": "/accounts",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ],
+          "group": "accounts",
+          "is_collection": true,
+          "target": ""
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/blogs",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/blogs",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ],
+          "is_collection": true,
+          "target": ""
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/blogs/search",
+      "method": "GET",
+      "output_encoding": "json",
+      "input_query_strings": [ "name" ],
+      "backend": [
+        {
+          "url_pattern": "/blogs/search",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ],
+          "is_collection": true,
+          "target": ""
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/blogs",
+      "method": "POST",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/blogs",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/blogs",
+      "method": "PUT",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/blogs",
+          "encoding": "json",
+          "sd": "static",
+          "method": "PUT",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/blogs",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/blogs",
+          "encoding": "json",
+          "sd": "static",
+          "method": "DELETE",
+          "disable_host_sanitize": false,
+          "host": [ "http://blogs:8080" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/accounts",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/accounts",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ],
+          "is_collection": true,
+          "target": ""
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/accounts/search",
+      "method": "GET",
+      "output_encoding": "json",
+      "input_query_strings": [ "login" ],
+      "backend": [
+        {
+          "url_pattern": "/accounts/search",
+          "encoding": "json",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ],
+          "is_collection": true,
+          "target": ""
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/accounts",
+      "method": "POST",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/accounts",
+          "encoding": "json",
+          "sd": "static",
+          "method": "POST",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/accounts",
+      "method": "PUT",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/accounts",
+          "encoding": "json",
+          "sd": "static",
+          "method": "PUT",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/accounts",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "input_query_strings": [ "id" ],
+      "backend": [
+        {
+          "url_pattern": "/accounts",
+          "encoding": "json",
+          "sd": "static",
+          "method": "DELETE",
+          "disable_host_sanitize": false,
+          "host": [ "http://accounts:8080" ]
+        }
+      ]
+    }
+  ]
+}
