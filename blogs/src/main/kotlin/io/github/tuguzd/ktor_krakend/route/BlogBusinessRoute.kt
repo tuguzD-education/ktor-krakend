@@ -23,4 +23,8 @@ fun Route.business() {
         val accountList = dao.findByName(it.name).map(Blog::toDto)
         call.respond(accountList)
     }
+
+    get("/health") {
+        call.respond("Healthy")
+    }
 }
