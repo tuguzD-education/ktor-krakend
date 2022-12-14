@@ -5,6 +5,7 @@
   "timeout": "3000ms",
   "cache_ttl": "300s",
   "output_encoding": "json",
+  "disable_rest": true,
   "endpoints": [
     {
       "endpoint": "/v1/all",
@@ -201,5 +202,41 @@
         }
       ]
     }
-  ]
+  ],
+  "sequential_start": true,
+  "extra_config": {
+    "telemetry/opencensus": {
+      "sample_rate": 100,
+      "reporting_period": 0,
+      "enabled_layers": {
+        "backend": true,
+        "router": true
+      },
+      "exporters": {
+        "jaeger": {
+          "endpoint": "http://jaeger:14268/api/traces",
+          "service_name": "krakend"
+        },
+        "prometheus": {
+          "port": 9091,
+          "namespace": "krakend",
+          "tag_host": false,
+          "tag_path": true,
+          "tag_method": true,
+          "tag_statuscode": false
+        }
+      }
+    },
+    "telemetry/influx": {
+      "address": "http://influxdb:8086",
+      "ttl": "25s",
+      "buffer_size": 100,
+      "username": "krakend",
+      "password": "krakend"
+    },
+    "telemetry/metrics": {
+      "collection_time": "15s",
+      "listen_address": ":8090"
+    }
+  }
 }

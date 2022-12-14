@@ -5,6 +5,9 @@ services:
     depends_on:
       - accounts
       - blogs
+      - jaeger
+      - prometheus
+      - grafana
     ports:
       - 8080:8080
     volumes:
@@ -14,6 +17,32 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.40
+    ports:
+      - 16686:16686
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+
+  influxdb:
+    image: influxdb:1.8.10
+    environment:
+      - INFLUXDB_DB=krakend
+      - INFLUXDB_USER=krakend
+      - INFLUXDB_USER_PASSWORD=krakend
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=supersecretpassword
 
   accounts:
     image: ktor-accounts
@@ -32,14 +61,14 @@ services:
       retries: 5
   mongo-accounts:
     image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
     healthcheck:
       test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh admin -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
       interval: 10s
       timeout: 10s
       retries: 5
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
 
   blogs:
     image: ktor-blogs
@@ -58,11 +87,11 @@ services:
       retries: 5
   mongo-blogs:
     image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
     healthcheck:
       test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh admin -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} --quiet | grep 1
       interval: 10s
       timeout: 10s
       retries: 5
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
