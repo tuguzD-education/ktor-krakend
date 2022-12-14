@@ -1,20 +1,20 @@
 services:
 
-  blogs:
-    image: ktor-blogs
+  accounts:
+    image: ktor-accounts
     build: .
     depends_on:
-      mongo-blogs:
+      mongo-accounts:
         condition: service_healthy
     environment:
-      - CONNECTION_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-blogs:27017/?authSource=admin
+      - CONNECTION_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-accounts:27017/?authSource=admin
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 10s
       timeout: 10s
       retries: 5
 
-  mongo-blogs:
+  mongo-accounts:
     image: mongo:latest
     environment:
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME
