@@ -3,6 +3,7 @@ val koin_version: String by project
 val kotlin_version: String by project
 val kmongo_version: String by project
 val logback_version: String by project
+val logback_gelf_version: String by project
 
 plugins {
     application
@@ -43,6 +44,7 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("de.siegmar:logback-gelf:$logback_gelf_version")
 
     // Testing
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")

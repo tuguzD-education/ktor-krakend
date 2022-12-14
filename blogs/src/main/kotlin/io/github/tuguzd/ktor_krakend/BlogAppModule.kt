@@ -19,6 +19,9 @@ import org.koin.logger.slf4jLogger
 
 @OptIn(KtorExperimentalLocationsAPI::class)
 fun Application.module() {
+    val message = "Welcome to Gelf Logging to Seq"
+    log.info(message)
+
     val databaseUri = environment.config.property(
         "database.connectionUri"
     ).getString()

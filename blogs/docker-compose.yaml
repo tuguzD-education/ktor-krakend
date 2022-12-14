@@ -1,0 +1,21 @@
+services:
+  blogs:
+    image: ktor-blogs
+    build: .
+    depends_on:
+      - mongo-blogs
+    ports:
+      - 8082:8080
+    environment:
+      - CONNECTION_URI=mongodb://mongo:password@mongo-blogs:27017/?authSource=admin
+      - GELF_ADDR=172.24.0.4:12201
+  mongo-blogs:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+networks:
+  default:
+    name: graylog-net
+    external: true
